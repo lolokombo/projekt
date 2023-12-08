@@ -1,4 +1,4 @@
-﻿#include<iostream>
+#include<iostream>
 #include<cmath>
 #include<iomanip>
 #include<fstream>
@@ -56,11 +56,67 @@ bool** gen_tab(int rozmiar_tab) {		/*użytkownuk podaj wilekośc tabeli*/
 	return tab;
 }
 
+/*
+int gen_tab1(const int tab3) {
+	for (int i = 0; i < 6; i++) {
+		tab3[i] = 1;
+		for (int j = 0; j < 6; j++) {
+			tab3[i][j] = 2;
+		}
+	}
+}
+*/
+
+/*
+int** gen_tab2(int roz_tab) {
+	int k = 1;
+	int n = 2;
+	int** tab1 = new int* [roz_tab];
+	for (int x = 0; x < roz_tab; x++) {
+		tab1[x] = new int [k];
+		for (int y = 0; y < roz_tab; y++) {
+			tab1[x][y] = n;
+		}
+	}
+	return tab1;
+}
+
+void print1(int **tab1, int rozmiar_tab) {
+	for (int i = 0; i < rozmiar_tab; i++) {
+		for (int j = 0; j < rozmiar_tab; j++) {
+			cout << tab1[i][j];
+		}
+		cout << endl;
+
+	}
+}
+*/
 bool** losowanie(bool** tab, int rozmiar_tab ,int ilosc_atom) {
 	srand(time(NULL));
 	for (int i = 0; i < ilosc_atom; i++) {
 		int a = rand() % rozmiar_tab;
 		int b = rand() % rozmiar_tab;
+		/*
+		for (int i = 0; i < rozmiar_tab; i++) {
+			if (tab[i][0]) {
+				int a = false;
+			}
+		for (int i = 0; i < rozmiar_tab; i++) {
+				if (tab[i][10]) {
+					int a = false;
+				}
+		for (int j = 0; j < rozmiar_tab; j++) {
+			if (tab[0][j]) {
+				int b = false;
+				}
+			}
+		}
+		for (int j = 0; j < rozmiar_tab; j++) {
+			if (tab[10][j]) {
+				int b = false;
+			}
+		}
+	}*/
 		tab[a][b] = true;
 	}
 	return tab;
@@ -80,8 +136,9 @@ void pentla_gry(bool** tab,int rozmiar_tab) {
 	int x = 0;
 	int y = 0;
 	char key;
+	print(tab, rozmiar_tab);
 	while (true) {
-		print(tab, rozmiar_tab);
+		//print(tab, rozmiar_tab);
 		cin >> key;
 		key = toupper(key);
 		while (key != 'w' and key != 's' and key != 'd' and key != 'a' and key != 'p' and key != 'k' and key != 'q') {
@@ -113,87 +170,102 @@ void pentla_gry(bool** tab,int rozmiar_tab) {
 				print(tab,rozmiar_tab);
 				//cout << "uzystkane punkty " << int punkty << endl;
 				exit(0);
+				break;
 			}
 			case 'p': {
 				print(tab, rozmiar_tab);
 				return;
+				break;
 			}
 			case 'q': {
 				return;
+
 			}
 		
 			}
 		system("CLS");
 	}
+}
 
+//void klawisze(int rozmiar_tab) {
+	/*if (rozmiar_tab = 5) {
+		cout << "w ,s , a , d - poruszanie sie po tablicy" << endl;
+		cout << "q - wyjscie do menu" << endl;
+		cout << "u - cofnij ruch" << endl;
+		cout << "r - powtorz ruch" << endl;
+		cout << "o - przypuszczalne ustawienie atomu" << endl;
+		cout << "p - umożliwa wyswitlenie rozwiazania" << endl;
+		cout << "h - pomoc" << endl;
+	}
+}*/
+
+void laserLBok(int kol , bool** tab , int rozmiar_tab) {
+		for (int i = 0; i < rozmiar_tab; i++) {
+			for (int j = kol; j < rozmiar_tab; j++) {
+				if (*tab[i] == true) {
+					cout << "cel trafiony" << endl;
+				}
+				else {
+					cout << "pudło" << endl;
+				}
+			}
+		}
+}
+
+void laserRBok(int kol, bool** tab, int rozmiar_tab) {
+	for (int i = 10; i > rozmiar_tab; i--) {
+		for (int j = kol; j < rozmiar_tab; j++) {
+			if (*tab[i] == true) {
+				cout << "cel trafiony" << endl;
+			}
+			else {
+				cout << "pudło" << endl;
+			}
+		}
+	}
+}
+
+void laserGora(int kol, bool** tab, int rozmiar_tab) {
+	for (int i = kol; i < rozmiar_tab; i++) {
+		for (int j = 0; j < rozmiar_tab; j++) {
+			if (*tab[i] == true) {
+				cout << "cel trafiony" << endl;
+			}
+			else {
+				cout << "pudło" << endl;
+			}
+		}
+	}
+}
+
+void laserDol(int kol, bool** tab, int rozmiar_tab) {
+	for (int i = kol; i < rozmiar_tab; i++) {
+		for (int j = 10; j > rozmiar_tab; j--) {
+			if (*tab[i] == true) {
+				cout << "cel trafiony" << endl;
+			}
+			else {
+				cout << "pudło" << endl;
+			}
+		}
+	}
 }
 
 int main() {
 	while (true) {
+		//int tab3[6][6];
 		int rozmiar_tab = wys_menu();
-		int ilosc_atom = gen_atom(rozmiar_tab);
+		int roz_tab = rozmiar_tab + 1;
+		int ilosc_atom = gen_atom(roz_tab);
 		bool** tab = gen_tab(rozmiar_tab);
+		//int **tab1 = gen_tab2(roz_tab);
+		//print1(tab1, roz_tab);
 		losowanie(tab, rozmiar_tab, ilosc_atom);
+		//klawisze(rozmiar_tab);
+		cout << "ktora kolumne chcesz szukac " << endl;
+		int kol;
+		cin >> kol;
 		pentla_gry(tab, rozmiar_tab);
 		delete tab;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*int main() {
-	ifstream myfile("C:\\Users\\kacpe\\Desktop\\a.txt");
-	if (myfile) {
-		string a;
-		myfile >> a;
-		cout << a << endl;
-		myfile.close();
-		
-	}
-	ofstream plik("C:\\Users\\kacpe\\Desktop\\a.txt");
-	if (plik) {
-		int n;
-		cin >> n;
-		plik << n << "\n";
-		plik.close();
-	}
-
-	return 0;
-}
-*/
